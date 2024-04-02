@@ -27,19 +27,19 @@ class SRPT():
     def rho_x(self, x: float):
         return quad(lambda t: t*self.f(t), 1, x)[0] * self.l
 
-    def srpt_response_time(self, x: float):
+    def response_time(self, x: float):
         numerator = self.l * (self.m2(x) + (x**2) * (1 - self.F(x)))
         denominator = 2 * (1 - self.rho_x(x))**2
         integral = quad(lambda t: 1/(1-self.rho_x(t)), 1, x)[0]
         return (numerator / denominator) + integral
 
-    def srpt_slowdown(self, x: float):
-        return self.srpt_response_time(x) / x
+    def slowdown(self, x: float):
+        return self.response_time(x) / x
 
     def get_slowdowns(self, x_values: list[float]) -> list[float]:
         res = []
         with Pool(self.processes) as pool:
-            res = pool.map(self.srpt_slowdown, x_values)
+            res = pool.map(self.slowdown, x_values)
         return res
 
 
