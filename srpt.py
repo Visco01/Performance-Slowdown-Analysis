@@ -1,10 +1,13 @@
 from scipy.integrate import quad
 import numpy as np
 from scipy.stats import truncpareto
+from multiprocessing import Pool
 
 
 class SRPT():
-    def __init__(self, alpha: float, max_v: int, rho: float) -> None:
+    def __init__(self, alpha: float, max_v: int, rho: float, processes: int = 24) -> None:
+        self.processes = processes
+
         self.alpha = alpha
         self.max_v = max_v
         self.rho = rho
@@ -37,6 +40,6 @@ class SRPT():
 
     def get_slowdowns(self, x_values: list[float]) -> list[float]:
         res = []
-        for x in x_values:
-            res.append(self.srpt_slowdown(x))
+        with Pool(self.processes) as pool:
+            res = pool.map(self.srpt_slowdown, x_values)
         return res
