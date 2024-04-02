@@ -4,6 +4,7 @@ from scipy.stats import truncpareto
 import matplotlib.pyplot as plt
 import math
 from multiprocessing import Pool
+import os
 
 
 def calc_rho(x, l, alpha, max_value):
@@ -39,6 +40,7 @@ def slowdown(x, l, alpha, max_value):
 
 
 def main():
+    output_file = "out/srpt.csv"
     fig, ax = plt.subplots(1, 1)
     max_y_value = 15
     alpha = 1.4
@@ -50,15 +52,27 @@ def main():
 
     # ax.set_yscale('log')
     # ax.set_xscale('log')
-
-    x_values = np.linspace(1, 20, 100)
-    with Pool(24) as pool:
-        values = [(x, l, alpha, max_value) for x in x_values]
-        y_values = pool.starmap(slowdown, values)
-        # y_values = pool.starmap(srpt_response_time, values)
-
-        ax.plot(x_values, y_values, 'b-', lw=2,
-                alpha=0.6, label='SRPT_slowdown')
+    if (os.path.exists(output_file)):
+        with open(output_file, "r") as f:
+            x_values = []
+            y_values = []
+            for line in f.readlines():
+                x, _, y = line.split(",")
+                x_values.append(float(x))
+                y_values.append(float(y))
+            ax.plot(x_values, y_values, 'b-', lw=2,
+                    alpha=0.6, label='SRPT_slowdown')
+    else:
+        with Pool(24) as pool:
+            x_values = np.linspace(1, 20, 100)
+            values = [(x, l, alpha, max_value) for x in x_values]
+            y_values = pool.starmap(slowdown, values)
+            # y_values = pool.starmap(srpt_response_time, values)
+            with open(output_file, "w") as f:
+                for (x, y, _, _), y in zip(values, y_values):
+                    print(f"{x},{y},{y}", file=f)
+            ax.plot(x_values, y_values, 'b-', lw=2,
+                    alpha=0.6, label='SRPT_slowdown')
 
     plt.show()
 
