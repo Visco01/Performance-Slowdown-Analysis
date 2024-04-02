@@ -7,12 +7,12 @@ import math
 
 class FCFS():
     def __init__(self, alpha: float, max_v: int, rho: float) -> None:
-        self.alfa = alpha
+        self.alpha = alpha
         self.max_v = max_v
         self.rho = rho
-        self.mu = truncpareto.mean(self.alfa, self.max_v)
+        self.mu = truncpareto.mean(self.alpha, self.max_v)
         self.l = self.rho*self.mu
-        self.sigma = math.sqrt(truncpareto.var(self.alfa, self.max_v))
+        self.sigma = math.sqrt(truncpareto.var(self.alpha, self.max_v))
 
     def waiting_time(self) -> float:
         numerator = self.rho+self.l*self.mu*self.sigma
