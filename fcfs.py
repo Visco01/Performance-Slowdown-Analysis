@@ -6,8 +6,8 @@ import math
 
 
 class FCFS():
-    def __init__(self, alfa: float, max_v: int, rho: float) -> None:
-        self.alfa = alfa
+    def __init__(self, alpha: float, max_v: int, rho: float) -> None:
+        self.alfa = alpha
         self.max_v = max_v
         self.rho = rho
         self.mu = truncpareto.mean(self.alfa, self.max_v)
