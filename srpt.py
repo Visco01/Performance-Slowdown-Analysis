@@ -1,42 +1,42 @@
 from scipy.integrate import quad
 import numpy as np
 from scipy.stats import truncpareto
-import matplotlib.pyplot as plt
-import math
-
-alfa = 1.4
-maxv = 10000
-tft = lambda t: t * truncpareto.pdf(t, alfa, maxv)
-ttft = lambda t: t * tft(t)
-cdf = lambda x: truncpareto.cdf(x, alfa, maxv)
-rho_x = lambda x: quad(tft, 1, x)[0] * l
-last_integral_x = lambda x: 1/(1-rho_x(x))
-
-rho = 0.7
-mu = 1 / quad(tft, 0, np.inf)[0]
-l = rho * mu
-sigma = math.sqrt(truncpareto.var(alfa, maxv))
 
 
-def m2(x):
-    integral = quad(ttft, 1, x)
-    return integral[0] * l
+class SRPT():
+    def __init__(self, alpha: float, max_v: int, rho: float) -> None:
+        self.alpha = alpha
+        self.max_v = max_v
+        self.rho = rho
+        self.mu = 1 / quad(lambda t: t*self.f(t), 0, np.inf)[0]
+        self.l = self.rho * self.mu
 
-def last_integral(x):
-    integral = quad(last_integral_x, 1, x)
-    return integral[0]
+    def m2(self, t):
+        return t**2 * self.f(t)
 
-def srpt_response_time(x):
-    numerator = l * (m2(x) + (x**2) * (1 - cdf(x)))
-    denominator = 2 * (1 - rho_x(x))**2
-    return (numerator / denominator) + last_integral(x)
+    def f(self, x):
+        return truncpareto.pdf(x, self.alpha, self.max_v)
 
-def srpt_slowdown(x):
-    return srpt_response_time(x) / x
+    def F(self, x):
+        return truncpareto.cdf(x, self.alpha, np.inf)
 
+    def rho_x(self, x):
+        return quad(lambda t: t*self.f(t), 1, x)[0] * self.l
 
-x_values = np.linspace(1,20,100)
+    def last_integral(self, x):
+        integral = quad(lambda t: 1/(1-self.rho_x(t)), 1, x)
+        return integral[0]
 
-SRPT_slowdown = []
-for x in x_values:
-    SRPT_slowdown.append(srpt_slowdown(x))
+    def srpt_response_time(self, x):
+        numerator = self.l * (self.m2(x) + (x**2) * (1 - self.F(x)))
+        denominator = 2 * (1 - self.rho_x(x))**2
+        return (numerator / denominator) + self.last_integral(x)
+
+    def srpt_slowdown(self, x):
+        return self.srpt_response_time(x) / x
+
+    def get_slowdowns(self, x_values: list[float]) -> list[float]:
+        res = []
+        for x in x_values:
+            res.append(self.srpt_slowdown(x))
+        return res
