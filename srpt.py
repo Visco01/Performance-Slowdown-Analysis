@@ -35,13 +35,8 @@ def srpt_slowdown(x):
     return srpt_response_time(x) / x
 
 
-fig, ax = plt.subplots(1, 1)
 x_values = np.linspace(1,20,100)
 
-y_SRPT_values = []
+SRPT_slowdown = []
 for x in x_values:
-    y_SRPT_values.append(srpt_slowdown(x))
-
-ax.plot(x_values, y_SRPT_values, 'b-', lw=2, alpha=0.6, label='SRPT_slowdown')
-
-plt.show()
+    SRPT_slowdown.append(srpt_slowdown(x))
