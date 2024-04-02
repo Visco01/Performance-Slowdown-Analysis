@@ -12,11 +12,10 @@ def calc_rho(x, l, alpha, max_value):
     return integral[0]*l
 
 
-def calc_m2(x, l, alpha, max_value):
+def calc_m2(x, alpha, max_value):
     def ft(t): return (t**2)*truncpareto.pdf(t, alpha, max_value)
     integral = quad(ft, 1, x)
-    return integral[0]*l
-
+    return integral[0]
 
 # def calc_service_time(x, alpha, max_value):
 #     def ft(t): return t*truncpareto.pdf(t, alpha, max_value)
@@ -25,7 +24,7 @@ def calc_m2(x, l, alpha, max_value):
 
 
 def srpt_response_time(x, l, alpha, max_value):
-    m2 = calc_m2(x, l, alpha, max_value)
+    m2 = calc_m2(x, alpha, max_value)
     # np.inf? Is it correct? Because it is F(x) so I do not think that max_value is appropriate in this case
     F_x = truncpareto.cdf(x, alpha, np.inf)
     rho = calc_rho(x, l, alpha, max_value)
@@ -60,7 +59,8 @@ def main():
 
         ax.plot(x_values, y_values, 'b-', lw=2,
                 alpha=0.6, label='SRPT_slowdown')
-        plt.show()
+
+    plt.show()
 
 
 if __name__ == "__main__":
