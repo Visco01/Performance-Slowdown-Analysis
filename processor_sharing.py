@@ -10,7 +10,7 @@ class ProcessorSharing():
         self.max_v = max_v
         self.rho = rho
 
-    def slowdown(self):
+    def slowdown(self) -> float:
         return 1/(1-self.rho)
 
     def get_slowdowns(self, x_values: list[float]) -> list[float]:

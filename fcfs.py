@@ -14,18 +14,18 @@ class FCFS():
         self.l = self.rho*self.mu
         self.sigma = math.sqrt(truncpareto.var(self.alfa, self.max_v))
 
-    def waiting_time(self):
-        numerator = self.rho+self.l*self.mu*(self.sigma)
+    def waiting_time(self) -> float:
+        numerator = self.rho+self.l*self.mu*self.sigma
         denominator = 2*(self.mu-self.l)
         return numerator/denominator
 
-    def service_time(self):
+    def service_time(self) -> float:
         return 1/(self.mu-self.l)
 
-    def response_time(self):
+    def response_time(self) -> float:
         return self.waiting_time() + self.service_time()
 
-    def slowdown(self, x: float):
+    def slowdown(self, x: float) -> float:
         return self.response_time()/x
 
     def get_slowdowns(self, x_values: list[float]) -> list[float]:
