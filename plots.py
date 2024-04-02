@@ -1,10 +1,8 @@
-from scipy.integrate import quad
 import numpy as np
-from scipy.stats import truncpareto
 import matplotlib.pyplot as plt
-
 from srpt import SRPT
 from fcfs import FCFS
+from fcfs2 import FCFS as FCFS2
 from processor_sharing import ProcessorSharing
 
 
@@ -27,6 +25,14 @@ def main():
     ax.plot(
         x_values,
         FCFS(ALPHA, MAX_V, RHO).get_slowdowns(x_values),
+        'r-',
+        lw=2,
+        alpha=0.6,
+        label='FCFS'
+    )
+    ax.plot(
+        x_values,
+        FCFS2(ALPHA, MAX_V, RHO).get_slowdowns(x_values),
         'r-',
         lw=2,
         alpha=0.6,

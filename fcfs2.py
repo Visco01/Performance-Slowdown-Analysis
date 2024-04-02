@@ -1,7 +1,6 @@
 import numpy as np
-from scipy.stats import truncpareto
 import matplotlib.pyplot as plt
-import math
+from scipy.stats import truncpareto
 
 
 class FCFS():
@@ -10,28 +9,27 @@ class FCFS():
         self.max_v = max_v
         self.rho = rho
         self.mu = truncpareto.mean(self.alpha, self.max_v)
-        self.l = self.rho*self.mu
-        self.sigma = math.sqrt(truncpareto.var(self.alpha, self.max_v))
-
-    def waiting_time(self) -> float:
-        numerator = self.rho+self.l*self.mu*self.sigma
-        denominator = 2*(self.mu-self.l)
-        return numerator/denominator
-
-    def service_time(self) -> float:
-        return 1/(self.mu-self.l)
+        self.l = self.rho / self.mu
 
     def response_time(self) -> float:
+        # Response time = waiting time + service time
         return self.waiting_time() + self.service_time()
 
+    def waiting_time(self) -> float:
+        # Mean waiting time using P-K formula
+        return self.rho / ((1 - self.rho) * self.mu)
+
+    def service_time(self) -> float:
+        # Service time
+        return 1 / (self.mu - self.l)
+
     def slowdown(self, x: float) -> float:
-        return self.response_time()/x
+        # Slowdown
+        return self.response_time() / x
 
     def get_slowdowns(self, x_values: list[float]) -> list[float]:
-        res: list[float] = []
-        for x in x_values:
-            res.append(self.slowdown(x))
-        return res
+        # Calculate slowdown for a range of x values
+        return [self.slowdown(x) for x in x_values]
 
 
 def main():
