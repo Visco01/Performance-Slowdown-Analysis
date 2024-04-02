@@ -17,16 +17,24 @@ class ProcessorSharing():
         return np.full_like(x_values, self.slowdown())
 
 
-# def PS_slowdown(rho):
-#     return 1/(1-rho)
+def main():
+    ALPHA = 1.4
+    MAX_V = 10000
+    RHO = 0.7
+
+    _, ax = plt.subplots(1, 1)
+    ax.set_ylim(0, 20)
+    x_values = np.linspace(1, 20, 100)
+    ax.plot(
+        x_values,
+        ProcessorSharing(ALPHA, MAX_V, RHO).get_slowdowns(x_values),
+        'g-',
+        lw=2,
+        alpha=0.6,
+        label='PS'
+    )
+    plt.show()
 
 
-# fig, ax = plt.subplots(1, 1)
-# max_y_value = 15
-# alfa = 1.4
-# maxv = 10000
-# rho = 0.7
-
-# x_values = np.linspace(1, 20, 100)
-
-# PS_slowdown = np.full_like(x_values, PS_slowdown(0.7))
+if __name__ == "__main__":
+    main()

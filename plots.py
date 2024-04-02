@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 from srpt import SRPT
 from fcfs import FCFS
 from processor_sharing import ProcessorSharing
-import time
 
 
 def main():

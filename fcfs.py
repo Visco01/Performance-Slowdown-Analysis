@@ -17,8 +17,6 @@ class FCFS():
     def waiting_time(self):
         numerator = self.rho+self.l*self.mu*(self.sigma)
         denominator = 2*(self.mu-self.l)
-        # print(numerator)
-        # print(denimenator)
         return numerator/denominator
 
     def service_time(self):
@@ -27,8 +25,6 @@ class FCFS():
     def response_time(self):
         return self.waiting_time() + self.service_time()
 
-    # def slowdown(rho, l, mu, sigma, job_size):
-    #     return response_time(rho, l, mu, sigma)/job_size
     def slowdown(self, job_size):
         return self.response_time()/job_size
 
@@ -39,18 +35,24 @@ class FCFS():
         return res
 
 
-# fig, ax = plt.subplots(1, 1)
-# max_y_value = 15
-# alfa = 1.4
-# maxv = 10000
-# rho = 0.7
-# mu = truncpareto.mean(alfa, maxv)
-# l = rho * mu
-# sigma = math.sqrt(truncpareto.var(alfa, maxv))
+def main():
+    ALPHA = 1.4
+    MAX_V = 10000
+    RHO = 0.7
+
+    _, ax = plt.subplots(1, 1)
+    ax.set_ylim(0, 20)
+    x_values = np.linspace(1, 20, 100)
+    ax.plot(
+        x_values,
+        FCFS(ALPHA, MAX_V, RHO).get_slowdowns(x_values),
+        'r-',
+        lw=2,
+        alpha=0.6,
+        label='FCFS'
+    )
+    plt.show()
 
 
-# x_values = np.linspace(1, 20, 100)
-
-# FCFS_slowdown = []
-# for x in x_values:
-#     FCFS_slowdown.append(slowdown(0.7, l, mu, sigma, x))
+if __name__ == "__main__":
+    main()
