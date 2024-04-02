@@ -33,10 +33,10 @@ def main():
     ax.plot(
         x_values,
         FCFS2(ALPHA, MAX_V, RHO).get_slowdowns(x_values),
-        'r-',
+        'purple',
         lw=2,
         alpha=0.6,
-        label='FCFS'
+        label='FCFS2'
     )
     ax.plot(
         x_values,
@@ -46,6 +46,7 @@ def main():
         alpha=0.6,
         label='SRPT'
     )
+    plt.legend()
     plt.show()
 
 
