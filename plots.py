@@ -12,7 +12,7 @@ def main():
     RHO = 0.7
 
     _, ax = plt.subplots(1, 1)
-    ax.set_ylim(0, 20)
+    # ax.set_ylim(0, 20)
     x_values = np.linspace(1, 20, 100)
     ax.plot(
         x_values,
