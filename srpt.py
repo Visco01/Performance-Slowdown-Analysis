@@ -15,28 +15,25 @@ class SRPT():
         self.mu = 1 / quad(lambda t: t*self.f(t), 0, np.inf)[0]
         self.l = self.rho * self.mu
 
-    def m2(self, t):
+    def m2(self, t: float):
         return t**2 * self.f(t)
 
-    def f(self, x):
+    def f(self, x: float):
         return truncpareto.pdf(x, self.alpha, self.max_v)
 
-    def F(self, x):
+    def F(self, x: float):
         return truncpareto.cdf(x, self.alpha, np.inf)
 
-    def rho_x(self, x):
+    def rho_x(self, x: float):
         return quad(lambda t: t*self.f(t), 1, x)[0] * self.l
 
-    def last_integral(self, x):
-        integral = quad(lambda t: 1/(1-self.rho_x(t)), 1, x)
-        return integral[0]
-
-    def srpt_response_time(self, x):
+    def srpt_response_time(self, x: float):
         numerator = self.l * (self.m2(x) + (x**2) * (1 - self.F(x)))
         denominator = 2 * (1 - self.rho_x(x))**2
-        return (numerator / denominator) + self.last_integral(x)
+        integral = quad(lambda t: 1/(1-self.rho_x(t)), 1, x)[0]
+        return (numerator / denominator) + integral
 
-    def srpt_slowdown(self, x):
+    def srpt_slowdown(self, x: float):
         return self.srpt_response_time(x) / x
 
     def get_slowdowns(self, x_values: list[float]) -> list[float]:

@@ -25,8 +25,8 @@ class FCFS():
     def response_time(self):
         return self.waiting_time() + self.service_time()
 
-    def slowdown(self, job_size):
-        return self.response_time()/job_size
+    def slowdown(self, x: float):
+        return self.response_time()/x
 
     def get_slowdowns(self, x_values: list[float]) -> list[float]:
         res: list[float] = []
