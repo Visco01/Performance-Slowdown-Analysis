@@ -37,10 +37,13 @@ def main():
         alpha=0.6,
         label='SRPT'
     )
+    plt.title('Queueing policies comparison')
+    plt.xlabel('Job size')
+    plt.ylabel('Mean Slowdown')
     plt.grid()
     plt.legend()
+    plt.savefig('plot.png')
     plt.show()
-
 
 if __name__ == "__main__":
     main()
