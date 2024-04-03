@@ -11,15 +11,15 @@ class FCFS():
         self.rho = rho
         self.mu = truncpareto.mean(self.alpha, self.max_v)
         self.l = self.rho*self.mu
-        self.sigma = math.sqrt(truncpareto.var(self.alpha, self.max_v))
+        self.cv = truncpareto.var(self.alpha, self.max_v)
 
     def waiting_time(self) -> float:
-        numerator = self.rho+self.l*self.mu*self.sigma
+        numerator = self.rho * (1 + self.cv)
         denominator = 2*(self.mu-self.l)
         return numerator/denominator
 
     def service_time(self) -> float:
-        return 1/(self.mu-self.l)
+        return 1 / self.mu
 
     def response_time(self) -> float:
         return self.waiting_time() + self.service_time()
