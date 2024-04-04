@@ -40,8 +40,8 @@ def main():
     RHO = 0.7
 
     _, ax = plt.subplots(1, 1)
-    ax.set_ylim(0, 20)
-    x_values = np.linspace(1, 20, 100)
+    ax.set_ylim(0, 30)
+    x_values = np.linspace(1, 300, 100)
     ax.plot(
         x_values,
         FCFS(ALPHA, MAX_V, RHO).get_slowdowns(x_values),
@@ -50,6 +50,12 @@ def main():
         alpha=0.6,
         label='FCFS'
     )
+    plt.title('FCFS policy slowdown')
+    plt.xlabel('Job size')
+    plt.ylabel('Mean Slowdown')
+    plt.grid()
+    plt.legend()
+    plt.savefig('fcfs.png')
     plt.show()
 
 
