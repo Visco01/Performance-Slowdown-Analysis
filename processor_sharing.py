@@ -19,7 +19,7 @@ class ProcessorSharing():
 
 def main():
     ALPHA = 1.4
-    MAX_V = 10000
+    MAX_V = 100_000
     RHO = 0.7
 
     _, ax = plt.subplots(1, 1)
