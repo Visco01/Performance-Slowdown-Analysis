@@ -24,7 +24,7 @@ def main():
 
     _, ax = plt.subplots(1, 1)
     ax.set_ylim(0, 20)
-    x_values = np.linspace(1, 20, 100)
+    x_values = np.linspace(1, 300, 100)
     ax.plot(
         x_values,
         ProcessorSharing(ALPHA, MAX_V, RHO).get_slowdowns(x_values),
@@ -33,6 +33,12 @@ def main():
         alpha=0.6,
         label='PS'
     )
+    plt.title('Processor Sharing slowdon analysis')
+    plt.xlabel('Job size')
+    plt.ylabel('Slowdown')
+    plt.grid()
+    plt.legend()
+    plt.savefig('plot.png')
     plt.show()
 
 
