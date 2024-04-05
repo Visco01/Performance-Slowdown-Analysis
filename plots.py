@@ -18,27 +18,32 @@ def main():
 
     _, ax = plt.subplots(1, 1)
     ax.set_ylim(0, 30)
-    x_values = np.linspace(1, 300, 100)
+    x_values = np.linspace(1, 400, 100)
     ps: list[float] = []
     fcfs: list[float] = []
     srpt: list[float] = []
-    if (os.path.exists(PS_FILE)):
-        _, ps = load_output(PS_FILE)
-    else:
-        ps = ProcessorSharing(
+    fcfs = FCFS(ALPHA, MAX_V, RHO).get_slowdowns(x_values)
+    ps = ProcessorSharing(
             ALPHA, MAX_V, RHO
         ).get_slowdowns(x_values)
-        save_output(PS_FILE, x_values, ps)
-    if (os.path.exists(FCFS_FILE)):
-        _, fcfs = load_output(FCFS_FILE)
-    else:
-        fcfs = FCFS(ALPHA, MAX_V, RHO).get_slowdowns(x_values)
-        save_output(FCFS_FILE, x_values, fcfs)
-    if (os.path.exists(SRPT_FILE)):
-        _, srpt = load_output(SRPT_FILE)
-    else:
-        srpt = SRPT(ALPHA, MAX_V, RHO).get_slowdowns(x_values)
-        save_output(SRPT_FILE, x_values, srpt)
+    srpt = SRPT(ALPHA, MAX_V, RHO).get_slowdowns(x_values)
+    # if (os.path.exists(PS_FILE)):
+    #     _, ps = load_output(PS_FILE)
+    # else:
+    #     ps = ProcessorSharing(
+    #         ALPHA, MAX_V, RHO
+    #     ).get_slowdowns(x_values)
+    #     save_output(PS_FILE, x_values, ps)
+    # if (os.path.exists(FCFS_FILE)):
+    #     _, fcfs = load_output(FCFS_FILE)
+    # else:
+    #     fcfs = FCFS(ALPHA, MAX_V, RHO).get_slowdowns(x_values)
+    #     save_output(FCFS_FILE, x_values, fcfs)
+    # if (os.path.exists(SRPT_FILE)):
+    #     _, srpt = load_output(SRPT_FILE)
+    # else:
+    #     srpt = SRPT(ALPHA, MAX_V, RHO).get_slowdowns(x_values)
+    #     save_output(SRPT_FILE, x_values, srpt)
     ax.plot(
         x_values,
         ps,
