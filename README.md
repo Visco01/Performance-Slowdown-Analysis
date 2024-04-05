@@ -17,7 +17,6 @@ The analysis confirms SRPT's superiority over PS, aligning with theoretical pred
 
 ![Plots Comparison](plot.png)
 
-#### Conclusions
 The conclusions drawn from the analysis are summarized. It is observed that SRPT remains a fair discipline for job sizes up to 400. The All-Can-Win theory holds true for the given conditions ($\rho=0.7$), and it's inferred that the property is valid for $\rho=0.5$ as well. 
 
 ## Usage
