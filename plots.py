@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from file_loading import load_output, save_output
-from srpt import SRPT
-from fcfs import FCFS
-from processor_sharing import ProcessorSharing
+from lib.file_loading import load_output, save_output
+from lib.srpt import SRPT
+from lib.fcfs import FCFS
+from lib.processor_sharing import ProcessorSharing
 import os
 
 
